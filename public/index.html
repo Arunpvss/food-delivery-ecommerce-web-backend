@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery & E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">Food & Shop</div>
+        <nav>
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#food"><i class="fas fa-utensils"></i> Food</a></li>
+                <li><a href="#shop"><i class="fas fa-shopping-bag"></i> Shop</a></li>
+                <li><a href="#cart"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#help"><i class="fas fa-question-circle"></i> Help</a></li>
+                <li><button id="theme-toggle"><i class="fas fa-moon"></i> Dark Mode</button></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <button id="login-btn"><i class="fas fa-user"></i> Login</button>
+            <button id="location-btn"><i class="fas fa-map-marker-alt"></i> Set Location</button>
+        </div>
+    </header>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Location Modal -->
+    <div id="location-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Set Location</h2>
+            <div id="map" style="height: 300px;"></div>
+            <button id="confirm-location">Confirm Location</button>
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to Food & Shop</h1>
+        <p>Order your favorite food and shop for your needs.</p>
+        <a href="#food" class="cta-button">Explore Food</a>
+        <a href="#shop" class="cta-button">Explore Shop</a>
+    </section>
+
+    <!-- Food Section -->
+    <section id="food" class="food-section">
+        <h2>Food Delivery</h2>
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="fruits">Fruits</button>
+            <button class="category-btn" data-category="vegetables">Vegetables</button>
+            <button class="category-btn" data-category="dairy">Dairy</button>
+            <button class="category-btn" data-category="groceries">Groceries</button>
+            <button class="category-btn" data-category="restaurants">Restaurants</button>
+        </div>
+        <div class="food-items">
+            <div class="food-item" data-category="fruits">
+                <img src="https://www.ampimex.in/wp-content/uploads/2021/02/apples-.jpg" alt="Apple">
+                <h3>Apple</h3>
+                <p>Starts from ₹49</p>
+                <button onclick="addToCart('Apple', 50)">Add to Cart</button>
+            </div>
+            <div class="food-item" data-category="vegetables">
+                <img src="https://www.jiomart.com/images/product/original/590003546/carrot-orange-500-g-product-images-o590003546-p590003546-0-202408070949.jpg" alt="Carrot">
+                <h3>Carrot</h3>
+                <p>Starts from ₹29</p>
+                <button onclick="addToCart('Carrot', 30)">Add to Cart</button>
+            </div>
+            <div class="food-item" data-category="dairy">
+                <img src="https://t4.ftcdn.net/jpg/02/31/84/29/360_F_231842968_qThCnmslPbEAwhg7nuW9rAy8qRNhRli7.jpg" alt="Milk">
+                <h3>Milk</h3>
+                <p>Starts from ₹39</p>
+                <button onclick="addToCart('Milk', 40)">Add to Cart</button>
+            </div>
+            <div class="food-item" data-category="groceries">
+                <img src="https://t4.ftcdn.net/jpg/02/07/50/45/360_F_207504516_jsY4n9YLKqjQE1z2nKJUWJv34xlehDzG.jpg" alt="Groceries">
+                <h3>Groceries</h3>
+                <p>Starts from ₹49</p>
+                <button onclick="addToCart('Groceries', 100)">Add to Cart</button>
+            </div>
+            <div class="food-item" data-category="restaurants">
+                <img src="https://www.thursdaynightpizza.com/wp-content/uploads/2022/06/veggie-pizza-side-view-out-of-oven-720x480.png" alt="Pizza">
+                <h3>Pizza</h3>
+                <p>Starts from ₹89</p>
+                <button onclick="addToCart('Pizza', 200)">Add to Cart</button>
+            </div>
+        </div>
+        <button class="see-more-btn">See More</button>
+    </section>
+
+    <!-- Shop Section -->
+    <section id="shop" class="shop-section">
+        <h2>E-commerce</h2>
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="men">Men</button>
+            <button class="category-btn" data-category="women">Women</button>
+            <button class="category-btn" data-category="kids">Kids</button>
+        </div>
+        <div class="shop-items">
+            <div class="shop-item" data-category="men">
+                <img src="https://www.kindpng.com/picc/m/290-2909867_calvin-klein-long-sleeve-t-shirt-mens-hd.png" alt="Men's T-Shirt">
+                <h3>Men's T-Shirt</h3>
+                <p>Starts from ₹199</p>
+                <button onclick="addToCart('Men\'s T-Shirt', 500)">Add to Cart</button>
+            </div>
+            <div class="shop-item" data-category="women">
+                <img src="https://img.freepik.com/free-photo/set-with-fashionable-women-s-clothing-skirt-sweater_169016-3210.jpg" alt="Women's Dress">
+                <h3>Women's Dress</h3>
+                <p>Starts from ₹399</p>
+                <button onclick="addToCart('Women\'s Dress', 800)">Add to Cart</button>
+            </div>
+            <div class="shop-item" data-category="kids">
+                <img src="https://images.meesho.com/images/products/336992493/uhfdk_512.webp" alt="Kids Clothing">
+                <h3>Kids Clothing</h3>
+                <p>Starts from ₹99</p>
+                <button onclick="addToCart('Kids Clothing', 300)">Add to Cart</button>
+            </div>
+        </div>
+        <button class="see-more-btn">See More</button>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="cart-section">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: ₹<span id="total">0</span></p>
+        <button onclick="checkout()" class="checkout-button">Checkout</button>
+    </section>
+
+    <!-- Help Section -->
+    <section id="help" class="help-section">
+        <h2>Help & Support</h2>
+        <p>If you need assistance, please contact us at <a href="mailto:pvssarun@gmail.com">pvssarun@gmail.com</a>.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Food & Shop. All rights reserved.</p>
+    </footer>
+
+    <!-- WhatsApp Support Button -->
+    <a href="https://wa.me/9493170192" class="whatsapp-support" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
